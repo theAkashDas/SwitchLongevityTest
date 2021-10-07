@@ -36,7 +36,7 @@ void setup()
 
 void loop()
 {
-  Serial.print("Reading memory i.e the no. of cycles : ");
+  Serial.print("Reading EEPROM: No. of cycles : ");
   int addr = 0; //first address
 
   // access the first address from the memory
@@ -49,10 +49,9 @@ void loop()
     b = i2c_eeprom_read_byte(0x57, addr); //access an address from the memory
   }
   Serial.println(" ");
-  Serial.print("PB4 : ");
   pb4Status = digitalRead(PB4);
-  Serial.println(pb4Status);
-  if (millis() - stateChange > 10000 && !pb4Status)
+
+  if (millis() - stateChange > 20000 && !pb4Status)
   {
     stopFunction = 1;
   }
@@ -60,7 +59,7 @@ void loop()
   {
     stateChange = millis();
   }
-  if(!stopFunction)
+  if (!stopFunction)
   {
     {
       myservo.write(0);
@@ -82,13 +81,16 @@ void loop()
       stn.toCharArray(buff, 10);
 
       i2c_eeprom_write_page(0x57, 0, (byte*)buff, sizeof(buff));
-      
+
     }
+    Serial.print("PB4 : ");
+    Serial.println(pb4Status);
   }
   else
   {
-    Serial.println("Switch didnt have continuity for last ten seconds so considering it to be defective");
+    Serial.println("Switch didnt have continuity for last twenty seconds so considering it to be defective now.");
   }
+//  pb4Status = digitalRead(PB4);
   delay(1000);
 }
 
