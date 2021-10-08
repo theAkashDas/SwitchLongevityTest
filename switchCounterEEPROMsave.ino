@@ -9,7 +9,7 @@ uint32_t count = 0, cycle = 0;
 int addr = 0;
 int val = 0;
 int pb4Status = 0, previousStat = 1;
-long stateChange = 0;
+long stateChange = 0, writeEEPROMtime = 0;
 bool stopFunction = 0;
 
 void setup()
@@ -36,7 +36,7 @@ void setup()
 
 void loop()
 {
-  Serial.print("Reading EEPROM: No. of cycles : ");
+  Serial.print("Gets update after 25 secs. Reading EEPROM. No. of cycles done: ");
   int addr = 0; //first address
 
   // access the first address from the memory
@@ -51,13 +51,9 @@ void loop()
   Serial.println(" ");
   pb4Status = digitalRead(PB4);
 
-  if (millis() - stateChange > 20000 && !pb4Status)
+  if (millis() - stateChange > 20000)
   {
     stopFunction = 1;
-  }
-  if (pb4Status)
-  {
-    stateChange = millis();
   }
   if (!stopFunction)
   {
@@ -80,7 +76,11 @@ void loop()
       stn = String(cycle);
       stn.toCharArray(buff, 10);
 
-      i2c_eeprom_write_page(0x57, 0, (byte*)buff, sizeof(buff));
+      if (millis() - writeEEPROMtime > 25000)
+      {
+        i2c_eeprom_write_page(0x57, 0, (byte*)buff, sizeof(buff));
+        writeEEPROMtime = millis();
+      }
 
     }
     Serial.print("PB4 : ");
@@ -88,9 +88,17 @@ void loop()
   }
   else
   {
-    Serial.println("Switch didnt have continuity for last twenty seconds so considering it to be defective now.");
+    Serial.println("Switch didnt change value for last twenty seconds so considering it to be defective now.");
   }
-//  pb4Status = digitalRead(PB4);
+
+  if (!pb4Status)
+  {
+    if(digitalRead(PB4))
+    {
+       stateChange = millis();
+    }
+  }
+//  millis() - stateChange > 20000 
   delay(1000);
 }
 
