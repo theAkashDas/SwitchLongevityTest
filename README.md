@@ -32,3 +32,6 @@ _*Use Case*_ - To check how long a push button switch last by automating the swi
   - repeating all over again.
 
 
+Changed the code flow a little. Working Fine. Now need to optimise the code and architect the code structure.
+
+

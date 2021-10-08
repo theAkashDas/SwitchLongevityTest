@@ -57,49 +57,47 @@ void loop()
   }
   if (!stopFunction)
   {
-    {
-      myservo.write(0);
-      delay(1000);
-    }
-    {
-      myservo.write(90);
-      count++;
-      Serial.print("Counts : ");
-      Serial.print(count);
-      if (!(count % 2))
-      {
-        cycle = count / 2;
-        Serial.print("\tON OFF Cycles : ");
-        Serial.print(cycle);
-      }
-      Serial.println();
-      stn = String(cycle);
-      stn.toCharArray(buff, 10);
 
-      if (millis() - writeEEPROMtime > 25000)
-      {
-        i2c_eeprom_write_page(0x57, 0, (byte*)buff, sizeof(buff));
-        writeEEPROMtime = millis();
-      }
+    myservo.write(0);
+    delay(1000);
 
-    }
     Serial.print("PB4 : ");
     Serial.println(pb4Status);
+
+    myservo.write(90);
+    count++;
+    Serial.print("Counts : ");
+    Serial.print(count);
+    if (!(count % 2))
+    {
+      cycle = count / 2;
+      Serial.print("\tON OFF Cycles : ");
+      Serial.print(cycle);
+    }
+    Serial.println();
+    stn = String(cycle);
+    stn.toCharArray(buff, 10);
+
+    if (millis() - writeEEPROMtime > 25000)
+    {
+      i2c_eeprom_write_page(0x57, 0, (byte*)buff, sizeof(buff));
+      writeEEPROMtime = millis();
+    }
   }
   else
   {
     Serial.println("Switch didnt change value for last twenty seconds so considering it to be defective now.");
   }
-
+  delay(1000);
   if (!pb4Status)
   {
-    if(digitalRead(PB4))
+    Serial.print("Inside of Condition check ");
+    if (digitalRead(PB4))
     {
-       stateChange = millis();
+      Serial.println(digitalRead(PB4));
+      stateChange = millis();
     }
   }
-//  millis() - stateChange > 20000 
-  delay(1000);
 }
 
 void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data ) {
