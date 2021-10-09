@@ -1,15 +1,16 @@
 #include <Wire.h>
 #include <Servo.h>
 
+Servo myservo;
+
 byte data = 0;
 String st, stn, nst = "";
 char buff[10];
-Servo myservo;
+
 uint32_t count = 0, cycle = 0;
-int addr = 0;
-int val = 0;
-int pb4Status = 0, previousStat = 1;
+int addr = 0 , val = 0, pb4Status = 0, previousStat = 1;
 long stateChange = 0, writeEEPROMtime = 0;
+
 bool stopFunction = 0;
 
 void setup()
@@ -78,7 +79,7 @@ void loop()
     stn = String(cycle);
     stn.toCharArray(buff, 10);
 
-    if (millis() - writeEEPROMtime > 25000)
+    if (millis() - writeEEPROMtime > 50000)
     {
       i2c_eeprom_write_page(0x57, 0, (byte*)buff, sizeof(buff));
       writeEEPROMtime = millis();

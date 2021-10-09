@@ -11,6 +11,7 @@ _*Use Case*_ - To check how long a push button switch last by automating the swi
   - Push Button to test.
   - Connecting wires and breadboard.
 
+<img src = "Extras/IMG_20210924_195256.jpg" width = "400"> 
 
 ### Working Flow
 
