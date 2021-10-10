@@ -11,7 +11,7 @@ _*Use Case*_ - To check how long a push button switch last by automating the swi
   - Push Button to test.
   - Connecting wires and breadboard.
 
-<img src = "Extras/IMG_20210924_195256.jpg" width = "400"> 
+<img src = "Extras/imgA.jpeg" width = "400"> 
 
 ### Working Flow
 
@@ -28,9 +28,10 @@ _*Use Case*_ - To check how long a push button switch last by automating the swi
   - if stopFucntion is not set to 1, the servo is used to press the switch.
   - count is the total no. of times switch is pressed.
   - cycle is the number of ON-OFF cycle done.
-  - updating eeprom data after every 25 secs.
+  - updating eeprom data after every 50 secs.
   - updating stateChange with a specific condition of pb4 status.
   - repeating all over again.
+  - if stopFucntion is set to 1, servo stops pressing.
 
 
 Changed the code flow a little. Working Fine. Now need to optimise the code and architect the code structure.
