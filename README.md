@@ -1,4 +1,4 @@
-# Switch Longevity Test
+# Switch Longevity Test with STM32 in arduino ide
 
 _*Use Case*_ - To check how long a push button switch last by automating the switch pressing action by a servo.
 
@@ -34,6 +34,6 @@ _*Use Case*_ - To check how long a push button switch last by automating the swi
   - if stopFucntion is set to 1, servo stops pressing.
 
 
-Changed the code flow a little. Working Fine. Now need to optimise the code and architect the code structure.
+  EEPROM Formating Hex File is attached with the repo.
 
 
